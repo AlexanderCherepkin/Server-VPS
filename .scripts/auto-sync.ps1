@@ -19,7 +19,13 @@ $ErrorActionPreference = "Stop"
 function Write-Log {
     param([string]$Message)
     $line = "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') $Message"
-    $logFile = Join-Path $RepoPath ".scripts\auto-sync.log"
+    # Keep the log outside the watched repository to avoid an infinite loop:
+    # writing the log would trigger the FileSystemWatcher, which would write again.
+    $logDir = Join-Path $env:LOCALAPPDATA "Server-VPS"
+    if (-not (Test-Path $logDir)) {
+        New-Item -ItemType Directory -Path $logDir -Force | Out-Null
+    }
+    $logFile = Join-Path $logDir "auto-sync.log"
     Add-Content -Path $logFile -Value $line -ErrorAction SilentlyContinue
     Write-Host $line
 }
