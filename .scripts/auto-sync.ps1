@@ -34,7 +34,11 @@ function Sync-Repository {
     param([string]$Path, [string]$Branch)
     Push-Location $Path
     try {
-        git add -A | Out-Null
+        # Redirect stderr to stdout so git warnings do not become terminating errors,
+        # then check $LASTEXITCODE explicitly.
+        $null = git add -A 2>&1
+        if ($LASTEXITCODE -ne 0) { throw "git add failed (exit $LASTEXITCODE)" }
+
         $status = git status --short
         if (-not $status) {
             Write-Log "[auto-sync] No changes to sync"
@@ -42,8 +46,12 @@ function Sync-Repository {
         }
 
         $message = "Auto-sync: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
-        git commit -m "$message`n`nCo-Authored-By: Claude Code <noreply@anthropic.com>" | Out-Null
-        git push origin $Branch | Out-Null
+        $null = git commit -m "$message`n`nCo-Authored-By: Claude Code <noreply@anthropic.com>" 2>&1
+        if ($LASTEXITCODE -ne 0) { throw "git commit failed (exit $LASTEXITCODE)" }
+
+        $null = git push origin $Branch 2>&1
+        if ($LASTEXITCODE -ne 0) { throw "git push failed (exit $LASTEXITCODE)" }
+
         Write-Log "[auto-sync] Synced: $message"
     }
     catch {
