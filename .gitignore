@@ -1,0 +1,21 @@
+# Secrets and credentials
+/root/reality-setup/
+secrets.env
+*.secrets
+id_ed25519
+id_rsa
+*.key
+*.pem
+
+# Sing-box profiles and temporary configs
+*-reality.json
+*-profile.json
+*.json.bak
+*.json.tmp
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
