@@ -65,6 +65,3 @@ sing-box на VPS
 ---
 
 Исходник: [`VPS.md`](./VPS.md)
-# Auto-sync test marker
-
-# Auto-sync test marker 2

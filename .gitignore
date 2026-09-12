@@ -19,3 +19,6 @@ Thumbs.db
 *.swp
 *.swo
 *~
+
+# Auto-sync logs
+.scripts/auto-sync.log

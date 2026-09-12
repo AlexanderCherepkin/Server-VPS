@@ -1,47 +1,49 @@
-# Автосинхронизация Server-VPS
+# Server-VPS Auto Sync
 
-Скрипты автоматически коммитят и пушат изменения в репозиторий на GitHub.
+These scripts automatically commit and push changes to the GitHub repository
+whenever files in `F:\Server_VPS` are modified.
 
-## Быстрый старт
+## Quick start
 
-### Запуск watcher вручную (для теста)
+### Run watcher manually (for testing)
 
 ```powershell
 cd F:\Server_VPS
 .\.scripts\auto-sync.ps1
 ```
 
-Watcher будет отслеживать изменения файлов, ждать 10 секунд после последнего
-сохранения и затем делать `git add -A`, `git commit` и `git push`.
+The watcher will track file changes, wait 10 seconds after the last save, then
+run `git add -A`, `git commit`, and `git push`.
 
-### Установка автозапуска при входе в Windows
+### Install auto-start on Windows logon
 
-Запустите PowerShell **от имени администратора**:
+Open **PowerShell as Administrator** and run:
 
 ```powershell
 cd F:\Server_VPS
 .\.scripts\install-watcher.ps1
 ```
 
-После этого watcher будет запускаться автоматически при входе пользователя.
+After that, the watcher starts automatically every time you log in.
 
-### Управление заданием
+### Manage the scheduled task
 
 ```powershell
-# Запустить прямо сейчас
+# Start now
 Start-ScheduledTask -TaskName "Server-VPS Auto Sync"
 
-# Остановить
+# Stop
 Stop-ScheduledTask -TaskName "Server-VPS Auto Sync"
 
-# Удалить
+# Remove
 Unregister-ScheduledTask -TaskName "Server-VPS Auto Sync" -Confirm:$false
 ```
 
-## Как это работает
+## How it works
 
-- Скрипт использует `System.IO.FileSystemWatcher`.
-- При каждом изменении сбрасывается таймер на 10 секунд (debounce).
-- Когда 10 секунд тишины прошло — создаётся коммит вида
-  `Auto-sync: YYYY-MM-DD HH:MM:SS` и выполняется push.
-- События внутри папки `.git` игнорируются.
+- Uses `System.IO.FileSystemWatcher` to watch the repository.
+- Resets a 10-second timer (debounce) on every change.
+- When 10 seconds of inactivity pass, creates a commit like
+  `Auto-sync: YYYY-MM-DD HH:MM:SS` and pushes it.
+- Events inside the `.git` folder are ignored.
+- Logs are written to `.scripts\auto-sync.log`.
