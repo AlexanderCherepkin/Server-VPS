@@ -48,7 +48,8 @@ CARD_INTERNATIONAL_PAYMENTS=НЕТ (белорусские карты не пр�
 PAYMENT_CARD_COUNTRY=Казахстан / Армения / Грузия / Международная виртуальная карта (PST.net, Pyypl)
 ACTUAL_USAGE_COUNTRY=Беларусь
 PHONE_COUNTRY=+375
-EMAIL_DOMAIN=gmail.com
+EMAIL_DOMAIN=proton.me
+PRIMARY_EMAIL=weblancer.devs@proton.me
 ```
 
 ### VPS
