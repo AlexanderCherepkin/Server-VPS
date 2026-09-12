@@ -63,7 +63,5 @@ sing-box на VPS
 - [sing-box for Apple platforms / SFM](https://sing-box.sagernet.org/clients/apple/)
 
 ---
-<!-- test live sync -->
-
 
 Исходник: [`VPS.md`](./VPS.md)
