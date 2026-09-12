@@ -1,12 +1,12 @@
 #Requires -Version 5.1
 <#
 .SYNOPSIS
-    Автоматически коммитит и пушит изменения в репозиторий Server-VPS
-    при изменении файлов в рабочей папке.
+    Automatically commits and pushes changes in the Server-VPS repository
+    whenever files in the working directory change.
 .DESCRIPTION
-    Watcher с debounce: ждёт 10 секунд тишины после последнего изменения,
-    затем делает git add, commit с timestamp и push в текущую ветку.
-    Лог пишется в .scripts/auto-sync.log
+    FileSystemWatcher with debounce: waits 10 seconds after the last change,
+    then runs git add -A, commit with a timestamp, and push.
+    Logs to .scripts\auto-sync.log
 #>
 param(
     [string]$RepoPath = (Split-Path -Parent $PSScriptRoot),
@@ -31,17 +31,17 @@ function Sync-Repository {
         git add -A | Out-Null
         $status = git status --short
         if (-not $status) {
-            Write-Log "[auto-sync] Нет изменений для синхронизации"
+            Write-Log "[auto-sync] No changes to sync"
             return
         }
 
         $message = "Auto-sync: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
         git commit -m "$message`n`nCo-Authored-By: Claude Code <noreply@anthropic.com>" | Out-Null
         git push origin $Branch | Out-Null
-        Write-Log "[auto-sync] Успешно синхронизировано: $message"
+        Write-Log "[auto-sync] Synced: $message"
     }
     catch {
-        Write-Log "[auto-sync] ОШИБКА: $_"
+        Write-Log "[auto-sync] ERROR: $_"
     }
     finally {
         Pop-Location
@@ -52,16 +52,16 @@ Push-Location $RepoPath
 
 try {
     if (-not (Test-Path (Join-Path $RepoPath ".git"))) {
-        throw "В папке $RepoPath не найден git-репозиторий"
+        throw "Git repository not found at $RepoPath"
     }
 
     $branch = git branch --show-current 2>$null
     if (-not $branch) {
-        throw "Не удалось определить текущую git-ветку"
+        throw "Could not determine current git branch"
     }
 
-    Write-Log "[auto-sync] Отслеживание: $RepoPath"
-    Write-Log "[auto-sync] Ветка: $branch"
+    Write-Log "[auto-sync] Watching: $RepoPath"
+    Write-Log "[auto-sync] Branch: $branch"
     Write-Log "[auto-sync] Debounce: ${DebounceSeconds}s"
 
     if ($Once) {
@@ -70,7 +70,6 @@ try {
         return
     }
 
-    # Глобальное состояние для событий watcher
     $global:AutoSyncRepoPath = $RepoPath
     $global:AutoSyncBranch = $branch
     $global:AutoSyncDebounceMs = $DebounceSeconds * 1000
@@ -92,9 +91,8 @@ try {
         if ($fullPath.StartsWith((Join-Path $repoPath ".git"))) { return }
 
         $relative = $fullPath.Substring($repoPath.Length + 1)
-        Write-Log "[auto-sync] Изменение: $relative"
+        Write-Log "[auto-sync] Change detected: $relative"
 
-        # Безопасный сброс таймера
         $timer = $null
         [System.Threading.Monitor]::Enter($global:AutoSyncLock)
         try {
@@ -123,7 +121,7 @@ try {
     Register-ObjectEvent -InputObject $watcher -EventName Deleted -Action $onChange | Out-Null
 
     $watcher.EnableRaisingEvents = $true
-    Write-Log "[auto-sync] Watcher запущен. Нажмите Ctrl+C для остановки."
+    Write-Log "[auto-sync] Watcher started. Press Ctrl+C to stop."
 
     while ($true) {
         Start-Sleep -Seconds 1
