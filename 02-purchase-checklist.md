@@ -57,13 +57,14 @@ cat ~/.ssh/id_ed25519.pub
 4. Запиши:
 
 ```text
-VPS_HOSTING_NAME=[УКАЗАТЬ ПОСЛЕ СРАВНЕНИЯ]
+VPS_HOSTING_NAME=PQ.Hosting
 VPS_PANEL_URL=[ВСТАВИТЬ ССЫЛКУ НА ПАНЕЛЬ]
-VPS_PLAN_NAME=[УКАЗАТЬ ПОСЛЕ СРАВНЕНИЯ]
-VPS_COUNTRY=Германия / Нидерланды
-VPS_CITY=Франкфурт / Амстердам
-VPS_PUBLIC_IPV4=[ВСТАВИТЬ_IP_ПОСЛЕ_ПОКУПКИ]
-VPS_OS=Ubuntu 24.04 LTS
+VPS_PLAN_NAME=PARs-1
+VPS_COUNTRY=Франция
+VPS_CITY=Париж
+VPS_PUBLIC_IPV4=138.124.92.11
+VPS_PUBLIC_IPV6_SUBNET=2a01:e5c0:29df::/48
+VPS_OS=Ubuntu 26.04
 VPS_INITIAL_SSH_USER=root
 VPS_ADMIN_USER=adminproxy
 VPS_SSH_PORT=22

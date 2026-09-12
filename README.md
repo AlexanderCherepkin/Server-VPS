@@ -65,3 +65,5 @@ sing-box на VPS
 ---
 
 Исходник: [`VPS.md`](./VPS.md)
+
+<!-- watcher restart test -->
