@@ -25,7 +25,7 @@ if ($existing) {
 }
 
 $action = New-ScheduledTaskAction -Execute "powershell.exe" `
-    -Argument "-ExecutionPolicy Bypass -WindowStyle Hidden -File `"$scriptPath`""
+    -Argument "-ExecutionPolicy RemoteSigned -WindowStyle Hidden -File `"$scriptPath`""
 
 $trigger = New-ScheduledTaskTrigger -AtLogOn
 
