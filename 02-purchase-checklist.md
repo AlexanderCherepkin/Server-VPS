@@ -57,11 +57,11 @@ cat ~/.ssh/id_ed25519.pub
 4. Запиши:
 
 ```text
-VPS_HOSTING_NAME=PQ.Hosting
-VPS_PANEL_URL=https://billmgr.pq.hosting/
-VPS_PLAN_NAME=Aluminium
-VPS_COUNTRY=Польша
-VPS_CITY=Варшава
+VPS_HOSTING_NAME=[УКАЗАТЬ ПОСЛЕ СРАВНЕНИЯ]
+VPS_PANEL_URL=[ВСТАВИТЬ ССЫЛКУ НА ПАНЕЛЬ]
+VPS_PLAN_NAME=[УКАЗАТЬ ПОСЛЕ СРАВНЕНИЯ]
+VPS_COUNTRY=Германия / Нидерланды
+VPS_CITY=Франкфурт / Амстердам
 VPS_PUBLIC_IPV4=[ВСТАВИТЬ_IP_ПОСЛЕ_ПОКУПКИ]
 VPS_OS=Ubuntu 24.04 LTS
 VPS_INITIAL_SSH_USER=root

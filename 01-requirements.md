@@ -43,8 +43,9 @@
 ```text
 CARD_COUNTRY=Беларусь
 CARD_CURRENCY=USD / BYN
-CARD_PAYMENT_SYSTEM=VISA
-CARD_INTERNATIONAL_PAYMENTS=ДА
+CARD_PAYMENT_SYSTEM=VISA / MASTERCARD
+CARD_INTERNATIONAL_PAYMENTS=НЕТ (белорусские карты не проходят в Stripe / PayPal / зарубежных эквайрингах)
+PAYMENT_CARD_COUNTRY=Казахстан / Армения / Грузия / Международная виртуальная карта (PST.net, Pyypl)
 ACTUAL_USAGE_COUNTRY=Беларусь
 PHONE_COUNTRY=+375
 EMAIL_DOMAIN=gmail.com
@@ -53,8 +54,8 @@ EMAIL_DOMAIN=gmail.com
 ### VPS
 
 ```text
-VPS_COUNTRY=Польша
-VPS_CITY=Варшава
+VPS_COUNTRY=Германия / Нидерланды
+VPS_CITY=Франкфурт / Амстердам
 VPS_PROVIDER_FIREWALL=выключен
 VPS_OS=Ubuntu 24.04 LTS
 VPS_INITIAL_SSH_USER=root
@@ -66,20 +67,23 @@ VPS_PUBLIC_IPV4=[ЗАПОЛНИТЬ ПОСЛЕ ПОКУПКИ]
 ### Бюджет и устройства
 
 ```text
-MAX_BUDGET_PER_MONTH=5
+MAX_BUDGET_PER_MONTH=10
 CURRENCY=USD
 NUMBER_OF_DEVICES=5
-ALTERNATIVE_PAYMENT=КРИПТОВАЛЮТА (USDT / TON / BTC / LTC)
+ALTERNATIVE_PAYMENT=КРИПТОВАЛЮТА (USDT TRC20 / Litecoin) — основной способ оплаты VPS
+RESIDENT_PROXY_BUDGET=5–10
+RESIDENT_PROXY_PROVIDERS=IPRoyal, Asocks (используются только в моменты оплаты международных сервисов)
+TOTAL_MONTHLY_BUDGET=15–20
 ```
 
 ### Локальный клиент
 
 ```text
-LOCAL_CLIENT_NAME=Hiddify
-LOCAL_CLIENT_VERSION=[УКАЖИ ВЕРСИЮ HIDDIFY ПОСЛЕ УСТАНОВКИ]
+LOCAL_CLIENT_NAME=Hiddify / sing-box GUI / Streisand
+LOCAL_CLIENT_VERSION=[УКАЖИ ВЕРСИЮ ПОСЛЕ УСТАНОВКИ]
 LOCAL_OS_VERSION=Windows / macOS / Android
-LOCAL_PROFILE_OUTPUT_PATH=~/Downloads/poland-reality.json
-LOCAL_PROFILE_NAME=poland-vless-reality
+LOCAL_PROFILE_OUTPUT_PATH=~/Downloads/germany-reality.json
+LOCAL_PROFILE_NAME=germany-vless-reality
 ```
 
 ### Reality handshake host
@@ -115,22 +119,22 @@ SSH_PUBLIC_KEY=[ssh-ed25519 AAAA...]
 
 ## Промпт 1: Найти VPS под твою ситуацию
 
-Скопируй, заполни поля в `МОИ ДАННЫЕ` и отправь AI-ассистенту.
+Скопируй этот промпт и отправь AI-ассистенту. Поля уже заполнены под твою ситуацию.
 
 ```text
 Ты - независимый исследователь VPS-хостингов. Найди и сравни пять VPS у пяти разных провайдеров в нужной мне стране.
 
 МОИ ДАННЫЕ
-- Нужная страна VPS: [СТРАНА]
-- Предпочтительный город: [ГОРОД ИЛИ "НЕВАЖНО"]
-- Фактическая страна использования: [СТРАНА]
-- Страна выпуска карты: [СТРАНА]
-- Платёжная система: [VISA / MASTERCARD / МИР / ДРУГАЯ]
-- Валюта карты: [RUB / USD / EUR / ДРУГАЯ]
-- Международные платежи: [ДА / НЕТ / НЕИЗВЕСТНО]
-- Альтернативная оплата: [СБП / PAYPAL / КРИПТОВАЛЮТА / НЕТ]
-- Максимальный бюджет: [СУММА В МЕСЯЦ]
-- Количество устройств: [ЧИСЛО]
+- Нужная страна VPS: Германия или Нидерланды
+- Предпочтительный город: Франкфурт или Амстердам
+- Фактическая страна использования: Беларусь
+- Страна выпуска карты: Беларусь (для VPS не используется)
+- Платёжная система: не используется для VPS
+- Валюта карты: USD / BYN
+- Международные платежи: НЕТ
+- Альтернативная оплата: КРИПТОВАЛЮТА (USDT TRC20 / Litecoin)
+- Максимальный бюджет: $10 в месяц
+- Количество устройств: 5
 
 КОНТЕКСТ
 VPS нужен только как сетевой endpoint:
@@ -202,37 +206,41 @@ BACKUP_PROVIDER=
 
 | Параметр | Значение |
 |---|---|
-| Провайдер | PQ.Hosting |
-| Тариф | Aluminium |
-| Локация | Польша, Варшава (LIM Center / Equinix) |
-| Вердикт | GO |
-| Цена | ~€3.77 / ~$4.10 в месяц |
-| IPv4 | Выделенный публичный IPv4 включён в базовый тариф |
-| Оплата | VISA / криптовалюта (USDT, TON, BTC, LTC) |
+| Провайдер | [УКАЗАТЬ ПОСЛЕ СРАВНЕНИЯ] |
+| Тариф | [УКАЗАТЬ ПОСЛЕ СРАВНЕНИЯ] |
+| Локация | Германия или Нидерланды |
+| Вердикт | [GO / CONDITIONAL GO / NO-GO] |
+| Цена | в пределах $5–10/мес |
+| IPv4 | Выделенный публичный IPv4 |
+| Оплата | Криптовалюта (USDT TRC20 / Litecoin) |
 | OS | Ubuntu 24.04 LTS |
 | vCPU | 1 |
 | RAM | 1 GB |
-| Диск | 15 GB NVMe |
-| Сеть | 1 Гбит/с, безлимитный трафик |
+| Диск | 10–20 GB NVMe |
+| Сеть | 100 Мбит/с и выше, желательно безлимит |
 
-Почему этот вариант:
+Почему Германия / Нидерланды:
 
-- Низкий пинг из Беларуси в Варшаву (15–25 мс).
-- Белорусская карта Visa Приорбанка проходит в эквайринге PQ.Hosting.
-- Порт TCP/443 открыт, tunneling не запрещён правилами провайдера.
-- IPv4 включён в стоимость, бюджет $5/мес выдерживается.
+- Резидентный IP этих стран лучше воспринимается международными платёжными системами.
+- Пинг из Беларуси во Франкфурт или Амстердам обычно 20–40 мс — приемлемо для Claude / Codex / браузера.
+- Крупные дата-центры, стабильная инфраструктура, много провайдеров с оплатой криптой.
 
-Запасной способ оплаты: криптовалюта (USDT, TON, BTC, Litecoin) или электронные кошельки.
+Почему криптовалюта:
+
+- Отсутствие привязки банковского счёта или персональных данных к серверу.
+- Работает независимо от санкционных ограничений и гео-блокировок карт.
+
+Запасной способ оплаты VPS: другая криптовалюта (BTC, TON) или криптовалютный кошелёк провайдера.
 
 ```text
-VPS_HOSTING_NAME=PQ.Hosting
+VPS_HOSTING_NAME=[УКАЗАТЬ ПОСЛЕ СРАВНЕНИЯ]
 VPS_ORDER_URL=[ВСТАВИТЬ ССЫЛКУ НА СТРАНИЦУ ЗАКАЗА]
-VPS_PLAN_NAME=Aluminium
-VPS_COUNTRY=Польша
-VPS_CITY=Варшава
-VPS_PRICE=~€3.77 / ~$4.10 в месяц
-VPS_PAYMENT_METHOD=VISA / КРИПТОВАЛЮТА
-VPS_PAYMENT_CONFIDENCE=CONFIRMED
+VPS_PLAN_NAME=[УКАЗАТЬ ПОСЛЕ СРАВНЕНИЯ]
+VPS_COUNTRY=Германия / Нидерланды
+VPS_CITY=Франкфурт / Амстердам
+VPS_PRICE=[УКАЗАТЬ ПОСЛЕ СРАВНЕНИЯ]
+VPS_PAYMENT_METHOD=КРИПТОВАЛЮТА (USDT TRC20 / Litecoin)
+VPS_PAYMENT_CONFIDENCE=CONFIRMED / UNKNOWN
 VPS_PUBLIC_IPV4=[ЗАПОЛНИТЬ ПОСЛЕ ПОКУПКИ]
 VPS_INITIAL_SSH_USER=root
 VPS_SSH_PORT=22
