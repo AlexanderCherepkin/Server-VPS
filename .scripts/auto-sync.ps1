@@ -34,10 +34,20 @@ function Sync-Repository {
     param([string]$Path, [string]$Branch)
     Push-Location $Path
     try {
-        # Redirect stderr to stdout so git warnings do not become terminating errors,
-        # then check $LASTEXITCODE explicitly.
-        $null = git add -A 2>&1
-        if ($LASTEXITCODE -ne 0) { throw "git add failed (exit $LASTEXITCODE)" }
+        # Wait up to 30 seconds if another git process holds index.lock.
+        $lockFile = Join-Path $Path ".git\index.lock"
+        $waited = 0
+        while (Test-Path $lockFile) {
+            if ($waited -ge 30) {
+                throw "index.lock exists for more than 30 seconds, aborting sync"
+            }
+            Start-Sleep -Seconds 1
+            $waited++
+        }
+
+        # Capture stderr separately so warnings do not pollute error handling.
+        $addErr = git add -A 2>&1
+        if ($LASTEXITCODE -ne 0) { throw "git add failed (exit $LASTEXITCODE): $addErr" }
 
         $status = git status --short
         if (-not $status) {
@@ -46,11 +56,11 @@ function Sync-Repository {
         }
 
         $message = "Auto-sync: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
-        $null = git commit -m "$message`n`nCo-Authored-By: Claude Code <noreply@anthropic.com>" 2>&1
-        if ($LASTEXITCODE -ne 0) { throw "git commit failed (exit $LASTEXITCODE)" }
+        $commitErr = git commit -m "$message`n`nCo-Authored-By: Claude Code <noreply@anthropic.com>" 2>&1
+        if ($LASTEXITCODE -ne 0) { throw "git commit failed (exit $LASTEXITCODE): $commitErr" }
 
-        $null = git push origin $Branch 2>&1
-        if ($LASTEXITCODE -ne 0) { throw "git push failed (exit $LASTEXITCODE)" }
+        $pushErr = git push origin $Branch 2>&1
+        if ($LASTEXITCODE -ne 0) { throw "git push failed (exit $LASTEXITCODE): $pushErr" }
 
         Write-Log "[auto-sync] Synced: $message"
     }
@@ -105,6 +115,14 @@ try {
         if ($fullPath.StartsWith((Join-Path $repoPath ".git"))) { return }
 
         $relative = $fullPath.Substring($repoPath.Length + 1)
+
+        # Ignore editor temp files and lock files to prevent race conditions.
+        if ($relative -match '\.tmp\.[0-9a-f]+($|\.)' -or
+            $relative -like '*.lock' -or
+            $relative -like '*~') {
+            return
+        }
+
         Write-Log "[auto-sync] Change detected: $relative"
 
         $timer = $null
