@@ -15,6 +15,9 @@ paris-reality.json
 *.json.bak
 *.json.tmp
 
+# Local sing-box source checkout
+sing-box-testing/
+
 # OS and editor files
 .DS_Store
 Thumbs.db
