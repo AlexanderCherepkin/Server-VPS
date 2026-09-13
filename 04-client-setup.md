@@ -159,6 +159,24 @@ chmod 600 [LOCAL_PROFILE_OUTPUT_PATH]
 - после импорта удали временные копии;
 - храни секреты только в root-only файлах на сервере и в защищённом локальном хранилище.
 
+## Перенос на другую Windows-машину
+
+Если нужно настроить sing-box GUI на другом компьютере:
+
+1. Безопасно перенеси `F:\Server_VPS\paris-reality.json` (зашифрованная флешка, менеджер паролей, локальная сеть).
+2. Не используй мессенджеры, почту, облако, QR/URI.
+3. Установи sing-box GUI для Windows: https://sing-box.sagernet.org/clients/windows/
+4. Запусти от имени администратора.
+5. **Profiles → Import →** выбери `paris-reality.json`.
+6. Выбери профиль `paris-vless-reality`, нажми **Play**.
+7. Разреши установку TUN/Network Adapter.
+8. В PowerShell проверь:
+   ```powershell
+   curl -s https://www.cloudflare.com/cdn-cgi/trace | Select-String '^ip='
+   curl -s https://www.cloudflare.com/cdn-cgi/trace | Select-String '^loc='
+   ```
+   Ожидаемо: `ip=138.124.92.11`, `loc=FR`.
+
 ## После импорта
 
 Переходи к [`05-verification.md`](./05-verification.md) для end-to-end проверки.
