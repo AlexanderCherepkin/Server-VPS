@@ -9,6 +9,7 @@ id_rsa
 *.pem
 
 # Sing-box profiles and temporary configs
+paris-reality.json
 *-reality.json
 *-profile.json
 *.json.bak

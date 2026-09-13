@@ -10,8 +10,8 @@ REALITY_HANDSHAKE_HOST=[например www.microsoft.com]
 UUID=[из /root/reality-setup/secrets.env]
 REALITY_PUBLIC_KEY=[из /root/reality-setup/secrets.env]
 SHORT_ID=[из /root/reality-setup/secrets.env]
-LOCAL_PROFILE_OUTPUT_PATH=[например ~/Downloads/almaty-reality.json]
-LOCAL_PROFILE_NAME=[безопасное имя профиля]
+LOCAL_PROFILE_OUTPUT_PATH=F:\Server_VPS\paris-reality.json
+LOCAL_PROFILE_NAME=paris-vless-reality
 ```
 
 ## Логика клиентского профиля
