@@ -18,6 +18,9 @@ paris-reality.json
 # Local sing-box source checkout
 sing-box-testing/
 
+.claude/
+history.md
+
 # OS and editor files
 .DS_Store
 Thumbs.db
