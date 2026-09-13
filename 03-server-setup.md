@@ -21,13 +21,13 @@ sing-box на VPS
 Перед началом заполни (из [`01-requirements.md`](./01-requirements.md) и [`02-purchase-checklist.md`](./02-purchase-checklist.md)):
 
 ```text
-VPS_PUBLIC_IPV4=[публичный IPv4]
-VPS_INITIAL_SSH_USER=[root или другой]
-VPS_ADMIN_USER=[имя нового sudo-пользователя]
+VPS_PUBLIC_IPV4=138.124.92.11
+VPS_INITIAL_SSH_USER=root
+VPS_ADMIN_USER=adminproxy
 VPS_SSH_PORT=22
-LOCAL_SSH_PRIVATE_KEY_PATH=[локальный путь к приватному ключу]
-VPS_PROVIDER_FIREWALL=[включён / выключен / неизвестно]
-REALITY_HANDSHAKE_HOST=[например www.microsoft.com]
+LOCAL_SSH_PRIVATE_KEY_PATH=D:\Settings\Users\user\.ssh\id_ed25519
+VPS_PROVIDER_FIREWALL=выключен
+REALITY_HANDSHAKE_HOST=www.microsoft.com
 ```
 
 ## Фаза 1. Preflight
@@ -37,7 +37,7 @@ REALITY_HANDSHAKE_HOST=[например www.microsoft.com]
 Подключись:
 
 ```bash
-ssh [VPS_INITIAL_SSH_USER]@[VPS_PUBLIC_IPV4]
+ssh root@138.124.92.11
 ```
 
 На сервере:
@@ -87,13 +87,13 @@ sudo cp /etc/sing-box/config.json /root/backups/$(date +%Y%m%d-%H%M%S)/ 2>/dev/n
 ### 3.1. Создать sudo-пользователя
 
 ```bash
-sudo adduser [VPS_ADMIN_USER]
-sudo usermod -aG sudo [VPS_ADMIN_USER]
-sudo mkdir -p /home/[VPS_ADMIN_USER]/.ssh
-sudo cp /root/.ssh/authorized_keys /home/[VPS_ADMIN_USER]/.ssh/authorized_keys
-sudo chown -R [VPS_ADMIN_USER]:[VPS_ADMIN_USER] /home/[VPS_ADMIN_USER]/.ssh
-sudo chmod 700 /home/[VPS_ADMIN_USER]/.ssh
-sudo chmod 600 /home/[VPS_ADMIN_USER]/.ssh/authorized_keys
+sudo adduser adminproxy
+sudo usermod -aG sudo adminproxy
+sudo mkdir -p /home/adminproxy/.ssh
+sudo cp /root/.ssh/authorized_keys /home/adminproxy/.ssh/authorized_keys
+sudo chown -R adminproxy:adminproxy /home/adminproxy/.ssh
+sudo chmod 700 /home/adminproxy/.ssh
+sudo chmod 600 /home/adminproxy/.ssh/authorized_keys
 ```
 
 ### 3.2. Проверить свежий вход во втором терминале
@@ -101,7 +101,7 @@ sudo chmod 600 /home/[VPS_ADMIN_USER]/.ssh/authorized_keys
 Открой второе окно терминала и выполни:
 
 ```bash
-ssh [VPS_ADMIN_USER]@[VPS_PUBLIC_IPV4]
+ssh adminproxy@138.124.92.11
 sudo whoami
 ```
 
@@ -141,7 +141,7 @@ sudo systemctl reload ssh
 В новом терминале:
 
 ```bash
-ssh [VPS_ADMIN_USER]@[VPS_PUBLIC_IPV4]
+ssh adminproxy@138.124.92.11
 ```
 
 Только теперь можно закрыть старую root-сессию.
@@ -233,7 +233,7 @@ sudo rm /etc/apt/keyrings/sagernet.asc
 Reality не требует собственного домена и сертификата. Нужен корректный handshake host, доступный с VPS по TCP/443.
 
 ```bash
-curl -I https://[REALITY_HANDSHAKE_HOST]
+curl -I https://www.microsoft.com
 ```
 
 Пример:
@@ -325,7 +325,7 @@ sudo nano /etc/sing-box/config.json
     {
       "type": "vless",
       "tag": "vless-in",
-      "listen": "0.0.0.0",
+      "listen": "::",
       "listen_port": 443,
       "users": [
         {
@@ -338,10 +338,6 @@ sudo nano /etc/sing-box/config.json
         "server_name": "__REALITY_HANDSHAKE_HOST__",
         "reality": {
           "enabled": true,
-          "handshake": {
-            "server": "__REALITY_HANDSHAKE_HOST__",
-            "server_port": 443
-          },
           "private_key": "__REALITY_PRIVATE_KEY__",
           "short_id": ["__SHORT_ID__"]
         }
@@ -349,7 +345,8 @@ sudo nano /etc/sing-box/config.json
     }
   ],
   "outbounds": [
-    { "type": "direct", "tag": "direct" }
+    { "type": "direct", "tag": "direct" },
+    { "type": "block", "tag": "block" }
   ]
 }
 ```

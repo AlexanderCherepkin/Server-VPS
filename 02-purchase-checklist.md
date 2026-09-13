@@ -4,16 +4,16 @@
 
 | Проверка | Требование | Статус |
 |---|---|---|
-| Страна и город сервера | Совпадают с задачей | [ ] |
-| Публичный IPv4 | Без CGNAT, отдельный адрес | [ ] |
-| Входящий TCP/443 | Разрешён | [ ] |
-| Правила провайдера | Tunneling/sing-box разрешён | [ ] |
-| Root-доступ и Ubuntu 24.04 | Есть | [ ] |
-| Web-console или rescue mode | Есть | [ ] |
+| Страна и город сервера | Совпадают с задачей | [x] |
+| Публичный IPv4 | Без CGNAT, отдельный адрес | [x] |
+| Входящий TCP/443 | Разрешён | [x] |
+| Правила провайдера | Tunneling/sing-box разрешён | [x] |
+| Root-доступ и Ubuntu 24.04 | Есть | [x] |
+| Web-console или rescue mode | Есть | [x] |
 | Замена IP / переустановка | Возможна | [ ] |
-| Способ оплаты | Подходит | [ ] |
-| Тариф | Хватает скорости и трафика | [ ] |
-| Status page / SLA / отзывы | Есть | [ ] |
+| Способ оплаты | Подходит | [x] |
+| Тариф | Хватает скорости и трафика | [x] |
+| Status page / SLA / отзывы | Есть | [x] |
 
 Для одного персонального endpoint ищи минимальный разумный тариф. 10–20 Мбит/с обычно достаточно для Claude, Codex, браузера и обычной работы.
 
@@ -64,11 +64,11 @@ VPS_COUNTRY=Франция
 VPS_CITY=Париж
 VPS_PUBLIC_IPV4=138.124.92.11
 VPS_PUBLIC_IPV6_SUBNET=2a01:e5c0:29df::/48
-VPS_OS=Ubuntu 26.04
+VPS_OS=Ubuntu 24.04 LTS
 VPS_INITIAL_SSH_USER=root
 VPS_ADMIN_USER=adminproxy
 VPS_SSH_PORT=22
-LOCAL_SSH_PRIVATE_KEY_PATH=~/.ssh/id_ed25519
+LOCAL_SSH_PRIVATE_KEY_PATH=D:\Settings\Users\user\.ssh\id_ed25519
 VPS_PROVIDER_FIREWALL=выключен
 REALITY_HANDSHAKE_HOST=www.microsoft.com
 ```
@@ -113,10 +113,10 @@ sudo ufw status verbose
 
 Перед переходом к [`03-server-setup.md`](./03-server-setup.md) у тебя должно быть:
 
-- [ ] Куплен VPS с Ubuntu 24.04 и публичным IPv4.
-- [ ] Работает SSH-вход по ключу.
-- [ ] Заполнены все поля блока выше.
-- [ ] Известен статус firewall провайдера.
-- [ ] Выбран `REALITY_HANDSHAKE_HOST` — `www.microsoft.com`.
+- [x] Куплен VPS с Ubuntu 24.04 и публичным IPv4.
+- [x] Работает SSH-вход по ключу.
+- [x] Заполнены все поля блока выше.
+- [x] Известен статус firewall провайдера.
+- [x] Выбран `REALITY_HANDSHAKE_HOST` — `www.microsoft.com`.
 
 После покупки замени `[ВСТАВИТЬ_IP_ПОСЛЕ_ПОКУПКИ]` на реальный `VPS_PUBLIC_IPV4` и возвращайся.

@@ -55,14 +55,14 @@ PRIMARY_EMAIL=weblancer.devs@proton.me
 ### VPS
 
 ```text
-VPS_COUNTRY=Германия / Нидерланды
-VPS_CITY=Франкфурт / Амстердам
+VPS_COUNTRY=Франция
+VPS_CITY=Париж
 VPS_PROVIDER_FIREWALL=выключен
 VPS_OS=Ubuntu 24.04 LTS
 VPS_INITIAL_SSH_USER=root
 VPS_ADMIN_USER=adminproxy
 VPS_SSH_PORT=22
-VPS_PUBLIC_IPV4=[ЗАПОЛНИТЬ ПОСЛЕ ПОКУПКИ]
+VPS_PUBLIC_IPV4=138.124.92.11
 ```
 
 ### Бюджет и устройства
@@ -103,8 +103,8 @@ REALITY_HANDSHAKE_HOST=www.microsoft.com
 ### SSH-ключ
 
 ```text
-LOCAL_SSH_PRIVATE_KEY_PATH=[только локальный путь, без содержимого]
-SSH_PUBLIC_KEY=[ssh-ed25519 AAAA...]
+LOCAL_SSH_PRIVATE_KEY_PATH=D:\Settings\Users\user\.ssh\id_ed25519
+SSH_PUBLIC_KEY=ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJIlK2sPGXlyuCUSTCknWhUYvmqMuP9S8tiWPdtJApJA vps-reality-key
 ```
 
 **Критичные поля (без них не начинать):**
@@ -215,7 +215,7 @@ BACKUP_PROVIDER=
 | IPv4 | 138.124.92.11 |
 | IPv6 | Подсеть 2a01:e5c0:29df::/48 |
 | Оплата | Криптовалюта |
-| OS | Ubuntu 26.04 |
+| OS | Ubuntu 24.04 LTS |
 | vCPU | 1 |
 | RAM | 2 GB |
 | Диск | 30 GB NVMe |
@@ -250,8 +250,8 @@ VPS_PUBLIC_IPV6_SUBNET=2a01:e5c0:29df::/48
 VPS_INITIAL_SSH_USER=root
 VPS_SSH_PORT=22
 VPS_PROVIDER_FIREWALL=выключен
-VPS_CONSOLE_OR_RESCUE=[УТОЧНИТЬ В ПАНЕЛИ]
-VPS_OS=Ubuntu 26.04
+VPS_CONSOLE_OR_RESCUE=VNC-консоль в панели PQ.Hosting
+VPS_OS=Ubuntu 24.04 LTS
 VPS_IP_REPLACEMENT_POLICY=[УТОЧНИТЬ В ПАНЕЛИ]
 MAIN_RISK=Провайдер может изменить политику оплаты или AUP
 BACKUP_PROVIDER=[УКАЖИТЕ ЗАПАСНОГО ПРОВАЙДЕРА ПРИ ЖЕЛАНИИ]

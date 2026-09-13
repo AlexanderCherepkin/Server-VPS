@@ -654,7 +654,7 @@ sudo chmod 600 /root/reality-setup/secrets.env
 Серверная логика:
 
 - inbound: VLESS;
-- listen: `0.0.0.0`;
+- listen: `::`;
 - port: TCP/443;
 - пользователь с UUID;
 - flow: `xtls-rprx-vision`;
@@ -674,7 +674,7 @@ sudo chmod 600 /root/reality-setup/secrets.env
     {
       "type": "vless",
       "tag": "vless-in",
-      "listen": "0.0.0.0",
+      "listen": "::",
       "listen_port": 443,
       "users": [
         {
@@ -687,10 +687,6 @@ sudo chmod 600 /root/reality-setup/secrets.env
         "server_name": "__REALITY_HANDSHAKE_HOST__",
         "reality": {
           "enabled": true,
-          "handshake": {
-            "server": "__REALITY_HANDSHAKE_HOST__",
-            "server_port": 443
-          },
           "private_key": "__REALITY_PRIVATE_KEY__",
           "short_id": ["__SHORT_ID__"]
         }
@@ -698,7 +694,8 @@ sudo chmod 600 /root/reality-setup/secrets.env
     }
   ],
   "outbounds": [
-    { "type": "direct", "tag": "direct" }
+    { "type": "direct", "tag": "direct" },
+    { "type": "block", "tag": "block" }
   ]
 }
 ```
